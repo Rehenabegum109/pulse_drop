@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 
-export default function FAQSection() {
-  const [openIndex, setOpenIndex] = useState(0);
+type FAQ = {
+  question: string;
+  answer: string;
+};
 
-  const faqs = [
+export default function FAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const faqs: FAQ[] = [
     {
       question: "How long does a reservation last?",
       answer:
@@ -32,18 +37,18 @@ export default function FAQSection() {
     },
   ];
 
-  const toggleFAQ = (index) => {
+  const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
     <section className="relative bg-black text-white py-28 px-6 overflow-hidden">
-      
+
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-red-600/10 blur-[160px] rounded-full"></div>
 
       <div className="relative max-w-5xl mx-auto">
-        
+
         {/* Heading */}
         <div className="text-center mb-20">
           <p className="uppercase tracking-[0.4em] text-red-500 text-sm mb-4">
@@ -52,9 +57,7 @@ export default function FAQSection() {
 
           <h2 className="text-5xl md:text-7xl font-black uppercase leading-tight">
             Frequently Asked
-            <span className="block text-red-600">
-              Questions
-            </span>
+            <span className="block text-red-600">Questions</span>
           </h2>
 
           <p className="max-w-2xl mx-auto mt-6 text-gray-400 text-lg leading-relaxed">
@@ -103,6 +106,7 @@ export default function FAQSection() {
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );
