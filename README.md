@@ -1,73 +1,151 @@
-# React + TypeScript + Vite
+#  PulseDrop - Limited Stock Reservation System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+PulseDrop is a full-stack limited-time reservation system where users can reserve products for a fixed time window before automatic expiration.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+##  Live Links
 
-## React Compiler
+- 🔗 Backend: https://pulse-drop-backend.onrender.com  
+- 🔗 Frontend:https://pulsedrop.pxxl.click
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🧠 Project Purpose
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+This project demonstrates a real-world reservation system with:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Stock locking
+- Expiration system
+- Race condition handling
+- Clean scalable architecture
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Tech Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Cron Jobs
+- JWT Authentication
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Frontend
+- React
+- TypeScript
+- Custom Hooks
+- Axios API Layer
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+##  Race Condition Handling
+
+Multiple users can try to reserve the same product at the same time.
+
+### Solution:
+- Atomic stock update in backend
+- Server-side validation before reservation
+- Prevents double booking
+
+---
+
+##  Testing Strategy
+
+### Backend
+- Reservation logic test
+- Expiration job test
+- Concurrency simulation test
+
+### Frontend
+- Timer logic test
+- API error handling test
+
+---
+
+##  Architecture Decisions
+
+- Service layer used for clean logic separation
+- API layer separated in frontend for scalability
+- Cron job used for expiration system
+
+---
+
+## Trade-offs
+
+- Used Cron Job instead of Redis Queue → simpler but less scalable
+- No distributed locking → faster development but limited concurrency control
+
+---
+
+##  Scaling Notes (10k users)
+
+Possible issues:
+- MongoDB write contention
+- Cron job delay under heavy load
+
+Solutions:
+- Add Redis locking
+- Use BullMQ queue system
+- Separate worker service
+
+---
+
+# ❓ Interview Questions & Answers
+
+## Q1: How did you handle race conditions?
+**Answer:**  
+I used atomic database updates and server-side validation to ensure stock is checked and updated in a single operation. This prevents multiple users from reserving the same product simultaneously.
+
+---
+
+## Q2: How does the expiration system work?
+**Answer:**  
+A cron job runs periodically and checks expired reservations. If a reservation is expired, it automatically releases the stock back to the product.
+
+---
+
+## Q3: Why did you separate API layer in frontend?
+**Answer:**  
+To centralize all API calls, make components clean, and improve maintainability and scalability.
+
+---
+
+## Q4: What would break at 10k concurrent users?
+**Answer:**  
+MongoDB write contention and cron job delays could become bottlenecks. Also, without Redis locking, race condition handling is limited under extreme load.
+
+---
+
+## Q5: How would you scale this system?
+**Answer:**  
+I would add Redis for locking, use a queue system like BullMQ for background jobs, and separate worker services for handling expiration tasks.
+
+---
+
+## Q6: Why cron job instead of queue system?
+**Answer:**  
+Cron job is simpler to implement and sufficient for small-medium scale projects. Queue systems are more complex but better for large-scale production.
+
+---
+
+## 🚀 Deployment
+
+- Backend: Render  
+- Frontend: Pxxl.app  
+
+---
+
+## 📌 API Base URL
+
+https://pulse-drop-backend.onrender.com/api
+
+---
+
+## 👨‍💻 Author
+
+Full-stack system design project focusing on:
+- Concurrency handling
+- Expiration system
+- Clean architecture
+- Production deployment
