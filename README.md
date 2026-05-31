@@ -8,6 +8,7 @@ PulseDrop is a full-stack limited-time reservation system where users can reserv
 
 - 🔗 Backend: https://pulse-drop-backend.onrender.com  
 - 🔗 Frontend:https://pulsedrop.pxxl.click
+video :https://www.loom.com/share/1ebf4a6520d64896afe642986bcd9a0b
 
 ---
 

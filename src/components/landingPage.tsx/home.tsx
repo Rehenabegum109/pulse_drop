@@ -21,7 +21,7 @@ const Home = () => {
          <GlobalCommunity/>
          <TestimonialsSection/>
          <FAQSection/>
-    <Footer/>
+
 
         </div>
     );
